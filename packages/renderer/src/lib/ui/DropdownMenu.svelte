@@ -1,7 +1,12 @@
 <script lang="ts">
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import type { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import Fa from 'svelte-fa';
 import DropDownMenuItems from './DropDownMenuItems.svelte';
+
+export let icon: IconDefinition = faEllipsisVertical;
+export let ariaLabel = 'drop-down-menu';
+export let shownAsMenuActionItem = false;
 
 // Show and hide the menu using clickOutside
 let showMenu = false;
@@ -40,9 +45,12 @@ function onWindowClick(e: any) {
       clientY = e.clientY;
       toggleMenu();
     }}"
+    aria-label="{ariaLabel}"
     bind:this="{outsideWindow}"
-    class="mr-2 text-gray-400 hover:bg-charcoal-800 hover:text-purple-400 font-medium rounded-md inline-flex items-center px-2 py-2 text-center">
-    <Fa class="h-4 w-4" icon="{faEllipsisVertical}" />
+    class="text-gray-400 {shownAsMenuActionItem
+      ? 'bg-charcoal-800 px-3'
+      : 'hover:bg-charcoal-800 mr-2'} hover:text-purple-400 font-medium rounded-md inline-flex items-center px-2 py-2 text-center">
+    <Fa class="h-4 w-4" icon="{icon}" />
   </button>
 
   <!-- Dropdown menu for all other actions -->
