@@ -39,7 +39,7 @@ $: styleClass = detailed
 <!-- If menu = true, use the menu, otherwise implement the button -->
 {#if menu}
   <!-- enabled menu -->
-  <DropdownMenuItem title="{title}" icon="{icon}" hidden="{hidden}" onClick="{handleClick}" />
+  <DropdownMenuItem title="{title}" icon="{icon}" hidden="{hidden}" enabled="{enabled}" onClick="{handleClick}" />
 {:else}
   <!-- enabled button -->
   <button

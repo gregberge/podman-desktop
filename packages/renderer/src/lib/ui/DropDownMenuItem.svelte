@@ -5,18 +5,21 @@ import Fa from 'svelte-fa';
 export let title: string;
 export let icon: IconDefinition;
 export let hidden = false;
+export let enabled = true;
 export let onClick: () => void = () => {};
+
+const buttonClass = 'p-3 hover:bg-black hover:text-purple-500 hover:rounded-md text-gray-400 hover:cursor-pointer';
+const buttonDisabledClass = 'p-3 text-gray-900 hover:cursor-pointer';
+
+$: styleClass = enabled ? buttonClass : buttonDisabledClass;
 </script>
 
 {#if !hidden}
   <!-- Use a div + onclick so there's no "blind spots" for when clicking-->
-  <div
-    class="p-3 hover:bg-black hover:text-purple-500 hover:rounded-md text-gray-400 hover:cursor-pointer"
-    role="none"
-    on:click="{onClick}">
+  <div class="{styleClass}" role="none" on:click="{onClick}">
     <span title="{title}" class="group flex items-center text-sm no-underline whitespace-nowrap" tabindex="-1">
-      <Fa class="h-4 w-4 text-md mr-2" icon="{icon}" />
-      {title}
+      <Fa class="h-4 w-4 text-md" icon="{icon}" />
+      {#if title}<span class="ml-2">{title}</span>{/if}
     </span>
   </div>
 {/if}

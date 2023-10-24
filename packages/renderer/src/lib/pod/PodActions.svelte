@@ -159,16 +159,33 @@ if (dropdownMenu) {
       menu="{dropdownMenu}"
       detailed="{detailed}"
       icon="{faRocket}" />
-    {#if openingUrls && openingUrls.length > 0 && pod.status === 'RUNNING' && !dropdownMenu}
-      <DropdownMenu icon="{faExternalLinkSquareAlt}" shownAsMenuActionItem="{true}" ariaLabel="Open Port">
+    {#if openingUrls.length === 0}
+      <ListItemButtonIcon
+        title="Open Exposed Port"
+        menu="{dropdownMenu}"
+        enabled="{false}"
+        hidden="{dropdownMenu}"
+        detailed="{detailed}"
+        icon="{faExternalLinkSquareAlt}" />
+    {:else if openingUrls.length === 1}
+      <ListItemButtonIcon
+        title="Open {extractPort(openingUrls[0])}"
+        onClick="{() => window.openExternal(openingUrls[0])}"
+        menu="{dropdownMenu}"
+        enabled="{pod.status === 'RUNNING'}"
+        hidden="{dropdownMenu}"
+        detailed="{detailed}"
+        icon="{faExternalLinkSquareAlt}" />
+    {:else if openingUrls.length > 1}
+      <DropdownMenu icon="{faExternalLinkSquareAlt}" hidden="{dropdownMenu}" shownAsMenuActionItem="{true}">
         {#each openingUrls as url}
           <ListItemButtonIcon
             title="Open {extractPort(url)}"
             onClick="{() => window.openExternal(url)}"
             menu="{!dropdownMenu}"
             enabled="{pod.status === 'RUNNING'}"
-            hidden="{!(pod.status === 'RUNNING')}"
-            detailed="{true}"
+            hidden="{dropdownMenu}"
+            detailed="{detailed}"
             icon="{faExternalLinkSquareAlt}" />
         {/each}
       </DropdownMenu>
